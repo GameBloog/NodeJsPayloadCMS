@@ -20,7 +20,7 @@
 
 ## Considerações Técnicas
 
-- **Autenticação**: Considero a possibilidade de usar o sistema de autenticação do PayloadCMS para simplificar e acelerar a configuração de autenticação. Isso aproveita as ferramentas prontas para administrar usuários e permissões, além de tornar o sistema mais seguro, pois o PayloadCMS já lida com práticas de segurança embutidas.
+- **Autenticação**: Considero a possibilidade de usar o sistema de autenticação do PayloadCMS para simplificar e acelerar a configuração de autenticação. Isso aproveita as ferramentas prontas para administrar usuários e permissões, além de tornar o sistema mais seguro, pois o PayloadCMS já lida com práticas de segurança embutidas. Mas vou ter que criar métodos para garantir os acessos corretos as rotas. 
 
 - **Documentação da API**: Vou usar o Swagger para documentar os endpoints da API, pois ele oferece um visual interativo, facilitando a exploração da API e testes de requisições.
 
