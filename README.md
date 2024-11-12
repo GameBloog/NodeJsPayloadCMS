@@ -1,6 +1,80 @@
 # API Documentation
 
+# Project Setup Instructions
+
+## 1. Clone the Repository
+
+First, clone the repository to your local machine:
+
+```bash
+git clone https://github.com/GameBloog/NodeJsPayloadCMS.git
+```
+
+## 2. Navigate to the Project Directory
+
+Enter the newly created directory:
+
+```bash
+cd NodeJsPayloadCMS
+```
+
+## 3. Install Dependencies
+
+Install all project dependencies:
+
+```bash
+npm install
+```
+
+## 4. Set Up MongoDB with Docker
+
+Start a MongoDB container on Docker with the necessary initialization settings. Run the following command:
+
+```bash
+docker run --name mongodb-container -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
+```
+
+This command creates a MongoDB container that exposes port `27017` and sets the initial username and password.
+
+## 5. Configure Environment Variables
+
+To connect the application to MongoDB, configure the connection URL in the project’s `.env` file. Example configuration:
+
+```env
+MONGODB_URI=mongodb://admin:secret@localhost:27017/mydatabase
+PAYLOAD_SECRET=your_payload_secret_key
+PORT=3001
+```
+
+- **`MONGODB_URI`**: The connection URL for MongoDB. Adjust `username`, `password`, `host`, `port`, and `database` as needed.
+- **`PAYLOAD_SECRET`**: A secure secret used by Payload CMS (can be any alphanumeric sequence).
+- **`PORT`**: The port on which the server will run. In this example, it's `3001`.
+
+## 6. Start Containers with Docker Compose
+
+Use Docker Compose to start all necessary services. Run the following command:
+
+```bash
+docker-compose up
+```
+
+## 7. Start the Server
+
+Finally, start the server in development mode:
+
+```bash
+npm run dev
+```
+
+The project should now be running on the specified port. Access it at `http://localhost:<PORT>` to interact with the application.
+
+---
+
+Following these steps will have the project set up and running on your local machine.
+
 ## Authentication Endpoints - Users
+## It can also be accessed at:
+`/api-docs`
 
 ### Login
 - **Route**: `POST /api/users/login`
@@ -245,11 +319,82 @@
 # PT-BR
 
 # Documentação da API
-## Também pode ser acessada em:
-`/api-docs`
 
+# Instruções para Iniciar o Projeto
+
+## 1. Clone o Repositório
+
+Primeiro, faça o clone do repositório para a sua máquina local:
+
+```bash
+git clone https://github.com/GameBloog/NodeJsPayloadCMS.git
+```
+
+## 2. Acesse o Diretório do Projeto
+
+Entre no diretório criado:
+
+```bash
+cd NodeJsPayloadCMS
+```
+
+## 3. Instale as Dependências
+
+Instale todas as dependências do projeto:
+
+```bash
+npm install
+```
+
+## 4. Configurar o MongoDB com Docker
+
+Suba um container MongoDB no Docker com as configurações de inicialização necessárias. Execute o seguinte comando:
+
+```bash
+docker run --name mongodb-container -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=secret mongo
+```
+
+Este comando cria um container MongoDB que expõe a porta 27017 e define o nome de usuário e senha iniciais.
+
+## 5. Configurar Variáveis de Ambiente
+
+Para conectar a aplicação ao MongoDB, configure o link de conexão nas variáveis de ambiente no arquivo `.env` do projeto. Exemplo de configuração:
+
+```env
+MONGODB_URI=mongodb://admin:secret@localhost:27017/mydatabase
+PAYLOAD_SECRET=your_payload_secret_key
+PORT=3001
+```
+
+- **`MONGODB_URI`**: A URL de conexão ao MongoDB. Ajuste `username`, `password`, `host`, `port`, e `database` conforme necessário.
+- **`PAYLOAD_SECRET`**: Um segredo seguro usado pelo Payload CMS (pode ser uma sequência de letras e números).
+- **`PORT`**: A porta na qual o servidor vai rodar. Neste exemplo, é a `3001`.
+
+## 6. Subir os Containers com Docker Compose
+
+Use o Docker Compose para subir todos os serviços necessários. Execute o comando:
+
+```bash
+docker-compose up
+```
+
+## 7. Iniciar o Servidor
+
+Por fim, inicie o servidor em modo de desenvolvimento com o comando:
+
+```bash
+npm run dev
+```
+
+O projeto deve estar rodando na porta especificada nas variáveis de ambiente. Acesse `http://localhost:<PORT>` para interagir com a aplicação.
+
+--- 
+
+Com esses passos, o projeto estará pronto para uso e configuração em sua máquina local.
 
 ## Endpoints de Autenticação - Users
+## Também pode ser acessada em:
+`/api-docs`
 
 ### Login
 - **Rota**: `POST /api/users/login`
