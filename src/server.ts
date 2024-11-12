@@ -1,12 +1,18 @@
-import express from 'express'
-import payload from 'payload'
+import express from "express"
+import payload from "payload"
 
-require('dotenv').config()
+import swaggerUi from "swagger-ui-express"
+import YAML from "yamljs"
+
+require("dotenv").config()
 const app = express()
 
-// Redirect root to Admin panel
-app.get('/', (_, res) => {
-  res.redirect('/admin')
+const swaggerDocument = YAML.load("./src/swagger.yaml")
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
+app.get("/", (_, res) => {
+  res.redirect("/admin")
 })
 
 const start = async () => {

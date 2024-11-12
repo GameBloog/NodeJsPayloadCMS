@@ -1,3 +1,5 @@
+import { isLoggedIn } from "../access/isLoggedIn"
+import { isAdmin } from "../access/isAdmin"
 import { CollectionConfig } from "payload/types"
 
 const Product: CollectionConfig = {
@@ -5,6 +7,12 @@ const Product: CollectionConfig = {
   auth: false,
   admin: {
     useAsTitle: "name",
+  },
+  access: {
+    create: isAdmin,
+    read: isLoggedIn,
+    update: isAdmin,
+    delete: isAdmin,
   },
   fields: [
     {

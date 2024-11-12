@@ -1,42 +1,243 @@
-# Payload Blank Template
+# Documentação da API
 
-A blank template for [Payload](https://github.com/payloadcms/payload) to help you get up and running quickly. This repo may have been created by running `npx create-payload-app@latest` and selecting the "blank" template or by cloning this template on [Payload Cloud](https://payloadcms.com/new/clone/blank).
+## Endpoints de Autenticação - Users
 
-See the official [Examples Directory](https://github.com/payloadcms/payload/tree/main/examples) for details on how to use Payload in a variety of different ways.
+### Login
+- **Rota**: `POST /api/users/login`
+- **Body**:
+  ```json
+  {
+    "email": "johndoe@gmail.com",
+    "password": "1234"
+  }
+  ```
+- **Resposta**:
+  ```json
+  {
+    "exp": 1731439412,
+    "message": "Auth Passed",
+    "token": "jwt_token",
+    "user": {
+      "id": "6732908b6e8fa26cb351f912",
+      "email": "johndoe@gmail.com",
+      "createdAt": "2024-11-11T23:17:31.582Z",
+      "updatedAt": "2024-11-12T00:09:05.499Z",
+      "roles": "admin",
+      "loginAttempts": 0
+    }
+  }
+  ```
 
-## Development
+### Logout
+- **Rota**: `POST /api/users/logout`
+- **Resposta**:
+  ```json
+  {
+    "message": "You have been logged out successfully."
+  }
+  ```
 
-To spin up the project locally, follow these steps:
+### Refresh Token
+- **Rota**: `POST /api/users/refresh-token`
+- **Resposta**:
+  ```json
+  {
+    "message": "Token refresh successful",
+    "exp": 1731439588,
+    "refreshedToken": "new_jwt_token",
+    "user": { ... }
+  }
+  ```
 
-1. First clone the repo
-1. Then `cd YOUR_PROJECT_REPO && cp .env.example .env`
-1. Next `yarn && yarn dev` (or `docker-compose up`, see [Docker](#docker))
-1. Now Open [http://localhost:3000/admin](http://localhost:3000/admin)  to access the admin panel
-1. Create your first admin user using the form on the page
+### Current User
+- **Rota**: `GET /api/users/me`
+- **Resposta**:
+  ```json
+  {
+    "user": { ... },
+    "collection": "users",
+    "strategy": "local-jwt",
+    "exp": 1731439588,
+    "token": "jwt_token"
+  }
+  ```
 
-That's it! Changes made in `./src` will be reflected in your app.
+## Endpoints CRUD - Users
 
-### Docker
+### Listar Usuários
+- **Rota**: `GET /api/users`
+- **Autorização**: Apenas admins podem ver todos os usuários.
+- **Resposta**:
+  ```json
+  {
+    "docs": [{ ... }],
+    "totalDocs": 3,
+    "page": 1,
+    "hasNextPage": false
+  }
+  ```
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this project locally. To do so, follow these steps:
+### Obter Usuário por ID
+- **Rota**: `GET /api/users/{id}`
+- **Resposta**:
+  ```json
+  {
+    "id": "6732c7d8cf7a61711d958986",
+    "name": "John Doe",
+    "roles": "member",
+    "email": "JohnDoe@gmail.com",
+    "createdAt": "2024-11-12T03:13:28.938Z"
+  }
+  ```
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+### Criar Usuário
+- **Rota**: `POST /api/users`
+- **Autorização**: Apenas admins.
+- **Body**:
+  ```json
+  {
+    "email": "JohnDoe@gmail.com",
+    "password": "1234",
+    "confirmPassword": "1234",
+    "name": "John Doe",
+    "roles": "member"
+  }
+  ```
+- **Resposta**:
+  ```json
+  {
+    "message": "User successfully created.",
+    "doc": { ... }
+  }
+  ```
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+### Atualizar Usuário
+- **Rota**: `PATCH /api/users/{id}`
+- **Body**:
+  ```json
+  {
+    "name": "John Doe",
+    "roles": "member"
+  }
+  ```
+- **Resposta**:
+  ```json
+  {
+    "message": "Updated successfully.",
+    "doc": { ... }
+  }
+  ```
 
-## Production
+### Deletar Usuário
+- **Rota**: `DELETE /api/users/{id}`
+- **Autorização**: Apenas admins.
 
-To run Payload in production, you need to build and serve the Admin panel. To do so, follow these steps:
+---
 
-1. First invoke the `payload build` script by running `yarn build` or `npm run build` in your project root. This creates a `./build` directory with a production-ready admin bundle.
-1. Then run `yarn serve` or `npm run serve` to run Node in production and serve Payload from the `./build` directory.
+## Endpoints CRUD - Products
 
-### Deployment
+### Listar Produtos
+- **Rota**: `GET /api/products`
+- **Resposta**:
+  ```json
+  {
+    "docs": [{ ... }],
+    "totalDocs": 5
+  }
+  ```
 
-The easiest way to deploy your project is to use [Payload Cloud](https://payloadcms.com/new/import), a one-click hosting solution to deploy production-ready instances of your Payload apps directly from your GitHub repo. You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
+### Obter Produto por ID
+- **Rota**: `GET /api/products/{id}`
+- **Resposta**:
+  ```json
+  {
+    "id": "6732ac4a33f1330d655b4317",
+    "name": "TesteDoMetodoPost",
+    "description": "asdadadad",
+    "price": 231231,
+    "quantity": 121,
+    "createdAt": "2024-10-28T12:00:00.000Z"
+  }
+  ```
 
-## Questions
+### Criar Produto
+- **Rota**: `POST /api/products`
+- **Autorização**: Apenas admins.
+- **Body**:
+  ```json
+  {
+    "name": "teste",
+    "description": "teste",
+    "price": 12,
+    "quantity": 12
+  }
+  ```
+- **Resposta**:
+  ```json
+  {
+    "message": "Product successfully created.",
+    "doc": { ... }
+  }
+  ```
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+### Atualizar Produto
+- **Rota**: `PATCH /api/products/{id}`
+- **Autorização**: Apenas admins.
+
+### Deletar Produto
+- **Rota**: `DELETE /api/products/{id}`
+- **Autorização**: Apenas admins.
+
+---
+
+## Endpoints CRUD - Catalog
+
+### Listar Catálogos
+- **Rota**: `GET /api/catalog`
+- **Autorização**: Admins podem ver todos os catálogos; membros veem apenas os próprios catálogos.
+- **Resposta**:
+  ```json
+  {
+    "docs": [{ ... }],
+    "totalDocs": 9
+  }
+  ```
+
+### Obter Catálogo por ID
+- **Rota**: `GET /api/catalog/{id}`
+- **Resposta**:
+  ```json
+  {
+    "id": "67338a80bcbb4f4874774f2a",
+    "title": "teste",
+    "products": [{ ... }],
+    "createdAt": "2024-11-12T17:04:00.869Z"
+  }
+  ```
+
+### Criar Catálogo
+- **Rota**: `POST /api/catalog`
+- **Autorização**: Apenas para admins ou o usuário logado.
+- **Body**:
+  ```json
+  {
+    "title": "string",
+    "products": ["product_id"],
+    "createdBy": "user_id"
+  }
+  ```
+
+### Atualizar Catálogo
+- **Rota**: `PATCH /api/catalog/{id}`
+- **Autorização**: Apenas para o dono do catálogo ou admins.
+- **Body**:
+  ```json
+  {
+    "title": "string",
+    "products": ["product_id"]
+  }
+  ```
+
+### Deletar Catálogo
+- **Rota**: `DELETE /api/catalog/{id}`
+- **Autorização**: Apenas para o dono do catálogo ou admins.
