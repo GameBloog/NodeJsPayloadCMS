@@ -16,7 +16,6 @@ app.get("/", (_, res) => {
 })
 
 const start = async () => {
-  // Initialize Payload
   await payload.init({
     secret: process.env.PAYLOAD_SECRET,
     express: app,
@@ -25,7 +24,6 @@ const start = async () => {
     },
   })
 
-  // Add your own express routes here
 
   app.listen(process.env.PORT)
 }
